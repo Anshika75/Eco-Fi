@@ -1,76 +1,99 @@
-# Eco-Fi
+# 🌿 Eco-Fi AI – Smart Ticket Triage Dashboard
 
-🚀 Eco-Fi AI (EcoFi AI) – Smart Ticket Triage Dashboard
-Eco-Fi AI (also known as EcoFi AI) is an intelligent, AI-powered dashboard that revolutionizes how engineering and operations teams triage, analyze, and resolve issue tickets. It combines the power of Natural Language Processing (NLP), Machine Learning, and data visualization to drastically improve resolution times and decision-making.
+**Eco-Fi AI** is an intelligent, AI-powered dashboard designed to transform how engineering and operations teams **triage**, **analyze**, and **resolve issue tickets**. By leveraging **Natural Language Processing (NLP)**, **Machine Learning**, and powerful **data visualizations**, it enhances decision-making and drastically reduces resolution times.
 
-📌 Problem Statement
-Engineering teams waste countless hours manually triaging tickets, analyzing logs, and searching past issues in platforms like Jira or ServiceNow. Tribal knowledge is lost, critical tickets are delayed, and valuable time is consumed by inefficiencies.
+---
 
-💡 What Eco-Fi AI Does
+## ❗ Problem Statement
 
+Engineering teams often spend **countless hours** manually:
+- Triaging tickets
+- Analyzing logs
+- Searching historical issues in Jira, ServiceNow, etc.
 
-AI-Powered Ticket Triage
-Uses BERT to suggest the best owner/team, fetch relevant past tickets, and estimate resolution times.
+This leads to:
+- **Loss of tribal knowledge**
+- **Delayed resolution of critical tickets**
+- **Significant inefficiencies**
 
-Dead Ticket Detection
-ML classifier flags tickets stuck in limbo using metadata like timestamps, comments, and activity patterns.
+---
 
-Impact-Based Prioritization
-NLP-based urgency classifier highlights critical issues based on business impact and affected systems.
+## 💡 What Eco-Fi AI Does
 
-Dynamic Visual Dashboard
-Live heatmaps, pie charts, and state breakdowns using Power BI or Chart.js to visualize ticket lifecycles.
+### 🤖 AI-Powered Ticket Triage
+- Suggests the best owner/team using **BERT**
+- Fetches similar past tickets
+- Estimates resolution time
 
-⚙️ Tech Stack
+### 🧊 Dead Ticket Detection
+- Flags inactive tickets using ML classifiers
+- Detects based on timestamps, comments & activity
 
-Layer	Tools / Technologies
-Frontend	Power BI / React (dashboard visualizations)
-Backend	FastAPI / Node.js
-ML Models	BERT (Hugging Face), RandomForest, Regression
-DB/Storage	PostgreSQL, Redis
-Integration	Jira REST API / GitHub Issues / CSV Import
+### 🚨 Impact-Based Prioritization
+- Classifies urgency using NLP
+- Highlights high-impact tickets based on affected systems
 
-📊 Core Features
+### 📊 Dynamic Visual Dashboards
+- Visualizes ticket lifecycle with **heatmaps**, **pie charts**, and **state breakdowns** using **Power BI** or **Chart.js**
 
-🧠 NLP-based ticket summarization
+---
 
-🔗 Linked tickets via semantic similarity
+## ⚙️ Tech Stack
 
-🚦 Dead ticket detection with filterable dashboards
+| Layer        | Tools / Technologies                             |
+|--------------|--------------------------------------------------|
+| **Frontend** | Power BI / React                                 |
+| **Backend**  | FastAPI / Node.js                                |
+| **ML Models**| BERT (Hugging Face), Random Forest, Regression   |
+| **Storage**  | PostgreSQL, Redis                                |
+| **Integration** | Jira REST API, GitHub Issues, CSV Import     |
 
-⏱ Resolution time predictions
+---
 
-🔥 Urgency-based prioritization
+## 📌 Core Features
 
-📈 Real-time visual dashboards
+- 🧠 **NLP-based ticket summarization**
+- 🔗 **Linked tickets** using semantic similarity
+- 🚦 **Dead ticket detection** with interactive filters
+- ⏱ **Resolution time prediction**
+- 🔥 **Urgency-based prioritization**
+- 📈 **Live dashboards** with real-time insights
 
-🧪 Sample Use Case
-"Imagine submitting a new incident. FixScope AI instantly summarizes it, links relevant past fixes, suggests the best owner, and predicts how long it’ll take — all within seconds."
+---
 
-📈 Performance Metrics (Based on Demo Data)
+## 🧪 Sample Use Case
 
-Metric	Value
-Auto-classification rate	~85%
-Reduction in triage time	70%+
-Dead ticket accuracy	92%
-Time to value (ROI)	< 3 months
+> *"Imagine submitting a new incident. Eco-Fi AI instantly summarizes it, links related historical issues, recommends the most suitable owner, and predicts resolution time — all within seconds."*
 
-🔮 Future Scope
+---
 
-Live chat assistant for ticket handling
+## 📈 Performance Metrics *(Demo Data)*
 
-Multilingual NLP support
+| Metric                    | Value       |
+|---------------------------|-------------|
+| Auto-classification rate  | ~85%        |
+| Reduction in triage time  | 70%+        |
+| Dead ticket accuracy      | 92%         |
+| Time to ROI               | < 3 months  |
 
-CI/CD ticket integration
+---
 
-Role-based access and escalation triggers
+## 🔮 Future Scope
 
-🤝 Contributors
+- 🤖 Live chatbot assistant for ticket handling  
+- 🌐 Multilingual NLP support  
+- 🔁 CI/CD system integration  
+- 🔐 Role-based access and escalation triggers  
 
-[Rayman Ahluwalia] – Software Engineer -2
+---
 
-[Anshika Thakur] – Software Developer Intern
+## 🤝 Contributors
 
+- **Rayman Ahluwalia** – Software Engineer - 2  
+- **Anshika Thakur** – Software Developer Intern  
 
-📜 License
-MIT License. See LICENSE file for details.
+---
+
+## 📜 License
+
+This project is licensed under the **MIT License**. See the `LICENSE` file for more details.
