@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoFi - Ticket Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <header class="top-nav">
+        <div class="nav-left">
+    <div class="brand">EcoFi</div>
+</div>
+        <div class="nav-right">
+    <div class="search-container">
+        <input type="text" class="search-input" placeholder="Search by ticket ID or keyword">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+    </div>
+    <button class="create-incident-btn" id="createIncidentBtn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 5v14"/>
+            <path d="M5 12h14"/>
+        </svg>
+        Create Incident
+    </button>
+</div>
+    </header>
+
+    <div class="main-container">
+        <!-- Left Sidebar -->
+        <aside class="sidebar" id="sidebar">
+    <nav class="sidebar-nav">
+    <div class="nav-item active" data-tooltip="Home">
+    <div class="nav-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+    </div>
+    <span class="nav-label">Home</span>
+</div>
+    <div class="nav-item" data-tooltip="My Dashboard" id="myDashboardNav">
+        <div class="nav-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <span class="nav-label">My Dashboard</span>
+    </div>
+    <div class="nav-item" data-tooltip="Dead Tickets">
+        <div class="nav-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+        </div>
+        <span class="nav-label">Dead Tickets</span>
+    </div>
+    <div class="nav-item" data-tooltip="Ticket Analyzer">
+        <div class="nav-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        </div>
+        <span class="nav-label">Analyzer</span>
+    </div>
+    <div class="nav-item" data-tooltip="Visual Insights">
+        <div class="nav-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+        </div>
+        <span class="nav-label">Insights</span>
+    </div>
+    <div class="nav-item" data-tooltip="Settings">
+        <div class="nav-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+        </div>
+        <span class="nav-label">Settings</span>
+    </div>
+</nav>
+    <button class="sidebar-toggle-bottom" id="sidebarToggle" aria-label="Toggle Sidebar">
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m9 18 6-6-6-6"/>
+        </svg>
+    </button>
+</aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Summary Widgets -->
+            <div class="summary-widgets">
+                <div class="widget">
+                    <div class="widget-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 16h6"/><path d="M19 13v6"/><circle cx="12" cy="5" r="3"/><path d="M12 8v8"/><path d="m8 14-2 4-2-4"/></svg>
+                    </div>
+                    <div class="widget-content">
+                        <div class="widget-value" data-value="127">0</div>
+                        <div class="widget-label">Total Tickets</div>
+                    </div>
+                </div>
+                <div class="widget">
+                    <div class="widget-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+                    </div>
+                    <div class="widget-content">
+                        <div class="widget-value" data-value="8">0</div>
+                        <div class="widget-label">Dead Tickets</div>
+                    </div>
+                </div>
+                <div class="widget">
+                    <div class="widget-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    </div>
+                    <div class="widget-content">
+                        <div class="widget-value" data-value="2.3">0</div>
+                        <div class="widget-label">Avg. Resolution (h)</div>
+                    </div>
+                </div>
+                <div class="widget">
+                    <div class="widget-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+                    </div>
+                    <div class="widget-content">
+                        <div class="widget-value">Backend</div>
+                        <div class="widget-label">Most Active</div>
+                    </div>
+                </div>
+                <div class="widget">
+                    <div class="widget-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                    </div>
+                    <div class="widget-content">
+                        <div class="widget-value" data-value="15">0</div>
+                        <div class="widget-label">Critical Issues</div>
+                    </div>
+                </div>
+                <div class="widget">
+                    <div class="widget-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-6 0v4"/><rect x="2" y="9" width="20" height="11" rx="2" ry="2"/><circle cx="12" cy="15" r="1"/></svg>
+                    </div>
+                    <div class="widget-content">
+                        <div class="widget-value" data-value="92">0</div>
+                        <div class="widget-label">Resolved Today</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filters Section -->
+            
+
+            <!-- Kanban Board Container -->
+            <div class="kanban-board-container">
+                
+<div class="filters-section">
+    <div class="filter-dropdown-container">
+        <label for="status-filter">Status</label>
+        <div class="custom-select" id="status-select">
+            <div class="select-selected">All Status</div>
+            <div class="select-items select-hide">
+                <div class="dropdown-options">
+                    <div data-value="all">All Status</div>
+                    <div data-value="newly-reported">Newly Reported</div>
+                    <div data-value="being-investigated">Being Investigated</div>
+                    <div data-value="verification">Verification</div>
+                    <div data-value="resolved">Resolved</div>
+                    <div data-value="closed">Closed/Rejected</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="filter-dropdown-container">
+        <label for="assignee-filter">Assignee</label>
+        <div class="custom-select" id="assignee-select">
+            <div class="select-selected">All Assignees</div>
+            <div class="select-items select-hide">
+                <div class="dropdown-search-container">
+                    <input type="text" class="dropdown-search" placeholder="Search assignees...">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="dropdown-search-icon"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                </div>
+                <div class="dropdown-options">
+                    <div data-value="all">All Assignees</div>
+                    <div data-value="john-doe">John Doe</div>
+                    <div data-value="jane-smith">Jane Smith</div>
+                    <div data-value="mike-johnson">Mike Johnson</div>
+                    <div data-value="sarah-wilson">Sarah Wilson</div>
+                    <div data-value="tom-brown">Tom Brown</div>
+                    <div data-value="lisa-davis">Lisa Davis</div>
+                    <div data-value="alex-chen">Alex Chen</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="filter-dropdown-container">
+        <label for="urgency-filter">Priority</label>
+        <div class="custom-select" id="priority-select">
+            <div class="select-selected">All Priority</div>
+            <div class="select-items select-hide">
+                <div class="dropdown-options">
+                    <div data-value="all">All Priority</div>
+                    <div data-value="critical">Critical</div>
+                    <div data-value="high">High</div>
+                    <div data-value="medium">Medium</div>
+                    <div data-value="low">Low</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="filter-dropdown-container">
+        <label for="department-filter">Department</label>
+        <div class="custom-select" id="department-select">
+            <div class="select-selected">All Departments</div>
+            <div class="select-items select-hide">
+                <div class="dropdown-search-container">
+                    <input type="text" class="dropdown-search" placeholder="Search departments...">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="dropdown-search-icon"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                </div>
+                <div class="dropdown-options">
+                    <div data-value="all">All Departments</div>
+                    <div data-value="frontend">Frontend</div>
+                    <div data-value="backend">Backend</div>
+                    <div data-value="devops">DevOps</div>
+                    <div data-value="qa">QA</div>
+                    <div data-value="mobile">Mobile</div>
+                    <div data-value="design">Design</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="filter-dropdown-container">
+        <label for="teams-filter">Teams</label>
+        <div class="custom-select" id="teams-select">
+            <div class="select-selected">All Teams</div>
+            <div class="select-items select-hide">
+                <div class="dropdown-options">
+                    <div data-value="all">All Teams</div>
+                    <div data-value="frontend-team">Frontend Team</div>
+                    <div data-value="backend-team">Backend Team</div>
+                    <div data-value="mobile-team">Mobile Team</div>
+                    <div data-value="devops-team">DevOps Team</div>
+                    <div data-value="qa-team">QA Team</div>
+                    <div data-value="design-team">Design Team</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="filter-row-right">
+        <button class="filter-tag" id="critical-filter">Critical Only</button>
+        <button class="filter-tag" id="dead-filter">Dead Tickets</button>
+        
+        <div class="filter-dropdown-container">
+            <label for="sort-filter">Sort By</label>
+            <select id="sort-filter" class="sort-dropdown">
+                <option value="default">Default</option>
+                <option value="a-to-z">A to Z</option>
+                <option value="z-to-a">Z to A</option>
+                <option value="resolution-low-high">Resolution Time (Low to High)</option>
+                <option value="date-created">Date Created</option>
+                <option value="priority-high-low">Priority (High to Low)</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<div class="kanban-board">
+    <div class="kanban-column" data-status="defined">
+    <div class="column-header">
+        <div class="column-header-content">
+            <div class="column-header-left">
+                <div class="column-color-indicator"></div>
+                <div>
+                    <h3>Newly Reported</h3>
+                    <p class="column-subtitle">Issues just logged by users</p>
+                </div>
+            </div>
+            <span class="ticket-count">3</span>
+        </div>
+    </div>
+    <div class="column-content" id="defined-column">
+        <!-- Tickets will be populated by JavaScript -->
+    </div>
+</div>
+
+    <div class="kanban-column" data-status="review">
+        <div class="column-header">
+            <div class="column-header-content">
+                <div class="column-header-left">
+                    <div class="column-color-indicator"></div>
+                    <div>
+                        <h3>Being Investigated</h3>
+                        <p class="column-subtitle">Issues under investigation</p>
+                    </div>
+                </div>
+                <span class="ticket-count">2</span>
+            </div>
+        </div>
+        <div class="column-content" id="review-column">
+            <!-- Tickets will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <div class="kanban-column" data-status="test">
+        <div class="column-header">
+            <div class="column-header-content">
+                <div class="column-header-left">
+                    <div class="column-color-indicator"></div>
+                    <div>
+                        <h3>Verification</h3>
+                        <p class="column-subtitle">Issues being verified</p>
+                    </div>
+                </div>
+                <span class="ticket-count">4</span>
+            </div>
+        </div>
+        <div class="column-content" id="test-column">
+            <!-- Tickets will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <div class="kanban-column" data-status="completed">
+        <div class="column-header">
+            <div class="column-header-content">
+                <div class="column-header-left">
+                    <div class="column-color-indicator"></div>
+                    <div>
+                        <h3>Resolved</h3>
+                        <p class="column-subtitle">Issues successfully resolved</p>
+                    </div>
+                </div>
+                <span class="ticket-count">8</span>
+            </div>
+        </div>
+        <div class="column-content" id="completed-column">
+            <!-- Tickets will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <div class="kanban-column" data-status="accepted">
+        <div class="column-header">
+            <div class="column-header-content">
+                <div class="column-header-left">
+                    <div class="column-color-indicator"></div>
+                    <div>
+                        <h3>Closed/Rejected</h3>
+                        <p class="column-subtitle">Issues closed or rejected</p>
+                    </div>
+                </div>
+                <span class="ticket-count">6</span>
+            </div>
+        </div>
+        <div class="column-content" id="accepted-column">
+            <!-- Tickets will be populated by JavaScript -->
+        </div>
+    </div>
+</div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Ticket Detail Drawer -->
+    <div class="drawer-overlay" id="drawerOverlay">
+        <div class="drawer" id="ticketDrawer">
+            <div class="drawer-header">
+                <h2 id="drawerTitle">Ticket Details</h2>
+                <button class="close-btn" id="closeDrawer">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                </button>
+            </div>
+            <div class="drawer-content">
+                <div class="ticket-detail-section">
+                    <h3>Description</h3>
+                    <p id="ticketDescription">Loading...</p>
+                </div>
+                
+                <div class="ticket-detail-section">
+                    <h3>Suggested Solutions</h3>
+                    <ul id="suggestedSolutions">
+                        <li><a href="#">Solution Document #1</a></li>
+                        <li><a href="#">Knowledge Base Article</a></li>
+                        <li><a href="#">Similar Issue Resolution</a></li>
+                    </ul>
+                </div>
+
+                <div class="ticket-detail-section">
+                    <h3>Assignment Details</h3>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <strong>Predicted Team:</strong>
+                            <span id="predictedTeam">Backend Development</span>
+                        </div>
+                        <div class="detail-item">
+                            <strong>Estimated Duration:</strong>
+                            <span id="estimatedDuration">~8 hours</span>
+                        </div>
+                        <div class="detail-item">
+                            <strong>Classification:</strong>
+                            <span id="classification">High Impact, Medium Urgency</span>
+                        </div>
+                        <div class="detail-item">
+                            <strong>Affected Area:</strong>
+                            <span id="affectedArea">User Authentication</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ticket-detail-section">
+                    <h3>Similar Historical Tickets</h3>
+                    <div class="similar-tickets" id="similarTickets">
+                        <div class="similar-ticket">
+                            <strong>TCK-1205:</strong> Login authentication failure
+                            <span class="resolution-time">Resolved in 6h</span>
+                        </div>
+                        <div class="similar-ticket">
+                            <strong>TCK-1189:</strong> Session timeout issues
+                            <span class="resolution-time">Resolved in 4h</span>
+                        </div>
+                        <div class="similar-ticket">
+                            <strong>TCK-1156:</strong> Password reset not working
+                            <span class="resolution-time">Resolved in 12h</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ticket-detail-section">
+                    <h3>Translation</h3>
+                    <select class="translate-dropdown">
+                        <option>English (Default)</option>
+                        <option>Spanish</option>
+                        <option>French</option>
+                        <option>German</option>
+                        <option>Chinese</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Incident Modal -->
+    <div class="modal-overlay" id="createIncidentOverlay">
+    <div class="modal multi-step-modal" id="createIncidentModal">
+        <div class="modal-header">
+            <div class="step-indicator">
+                <div class="step active" data-step="1">
+                    <div class="step-number">1</div>
+                    <div class="step-label">Basic Info</div>
+                </div>
+                <div class="step" data-step="2">
+                    <div class="step-number">2</div>
+                    <div class="step-label">Severity</div>
+                </div>
+                <div class="step" data-step="3">
+                    <div class="step-number">3</div>
+                    <div class="step-label">Category</div>
+                </div>
+                <div class="step" data-step="4">
+                    <div class="step-number">4</div>
+                    <div class="step-label">Planning</div>
+                </div>
+                <div class="step" data-step="5">
+                    <div class="step-number">5</div>
+                    <div class="step-label">Assignment</div>
+                </div>
+                <div class="step" data-step="6">
+                    <div class="step-number">6</div>
+                    <div class="step-label">Similar</div>
+                </div>
+            </div>
+            <button class="close-btn modal-close" id="closeCreateIncident">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
+        </div>
+        <div class="modal-content">
+            <form id="createIncidentForm" class="incident-form">
+                
+                <!-- Step 1: Basic Information -->
+                <div class="form-step active" data-step="1">
+                    <div class="step-header">
+                        <div class="step-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10,9 9,9 8,9"/></svg>
+                        </div>
+                        <div>
+                            <h2>Basic Information</h2>
+                            <p>High-level overview of the incident</p>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="incidentTitle">Incident Title *</label>
+                        <input type="text" id="incidentTitle" name="title" required placeholder="Short, descriptive summary of the issue">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="errorMessages">Error Messages *</label>
+                        <textarea id="errorMessages" name="errorMessages" required placeholder="Paste any error messages, stack traces, or error codes here..." rows="3"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="expectedBehavior">Expected Behavior *</label>
+                        <textarea id="expectedBehavior" name="expectedBehavior" required placeholder="Describe what should happen normally..." rows="3"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="observedIssues">Observed Issues *</label>
+                        <textarea id="observedIssues" name="observedIssues" required placeholder="Describe what is actually happening..." rows="3"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="stepsToReproduce">Steps to Reproduce *</label>
+                        <textarea id="stepsToReproduce" name="stepsToReproduce" required placeholder="1. Go to...&#10;2. Click on...&#10;3. Enter...&#10;4. Observe..." rows="4"></textarea>
+                    </div>
+                </div>
+
+                <!-- Step 2: Severity & Scope -->
+                <div class="form-step" data-step="2">
+                    <div class="step-header">
+                        <div class="step-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="m12 17 .01 0"/></svg>
+                        </div>
+                        <div>
+                            <h2>Severity & Scope</h2>
+                            <p>Understanding the urgency and spread of the impact</p>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Urgency Level *</label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" id="critical" name="priority" value="critical" required>
+                                <label for="critical">
+                                    <div class="priority-indicator critical"></div>
+                                    <div>
+                                        <strong>Critical</strong>
+                                        <span>System down, major functionality broken</span>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="high" name="priority" value="high" required>
+                                <label for="high">
+                                    <div class="priority-indicator high"></div>
+                                    <div>
+                                        <strong>High</strong>
+                                        <span>Significant impact on users or business</span>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="medium" name="priority" value="medium" required>
+                                <label for="medium">
+                                    <div class="priority-indicator medium"></div>
+                                    <div>
+                                        <strong>Medium</strong>
+                                        <span>Moderate impact, workaround available</span>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="low" name="priority" value="low" required>
+                                <label for="low">
+                                    <div class="priority-indicator low"></div>
+                                    <div>
+                                        <strong>Low</strong>
+                                        <span>Minor issue, cosmetic or enhancement</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="impactScope">Impact Scope *</label>
+                        <div class="radio-group horizontal">
+                            <div class="radio-option">
+                                <input type="radio" id="internal" name="impactScope" value="internal" required>
+                                <label for="internal">Internal</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="external" name="impactScope" value="external" required>
+                                <label for="external">External Users</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="system" name="impactScope" value="system" required>
+                                <label for="system">Entire System</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="feature" name="impactScope" value="feature" required>
+                                <label for="feature">Single Feature</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Categorization -->
+                <div class="form-step" data-step="3">
+                    <div class="step-header">
+                        <div class="step-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                        </div>
+                        <div>
+                            <h2>Categorization</h2>
+                            <p>Routing to the correct domain and team</p>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="incidentDepartment">Department *</label>
+                            <select id="incidentDepartment" name="department" required>
+                                <option value="">Select Department</option>
+                                <option value="Engineering">Engineering</option>
+                                <option value="DevOps">DevOps</option>
+                                <option value="QA">QA</option>
+                                <option value="Security">Security</option>
+                                <option value="Product">Product</option>
+                                <option value="Design">Design</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="incidentTeam">Team *</label>
+                            <select id="incidentTeam" name="team" required>
+                                <option value="">Select Team</option>
+                                <!-- Options will be populated based on department -->
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="incidentAffectedArea">Affected Area</label>
+                        <input type="text" id="incidentAffectedArea" name="affectedArea" placeholder="e.g., User Authentication, Payment System, Dashboard">
+                    </div>
+                </div>
+
+                <!-- Step 4: Planning -->
+                <div class="form-step" data-step="4">
+                    <div class="step-header">
+                        <div class="step-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                        </div>
+                        <div>
+                            <h2>Planning</h2>
+                            <p>Resource estimation and timelines</p>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="expectedPoints">Expected Points *</label>
+                            <input type="number" id="expectedPoints" name="expectedPoints" min="0.5" step="0.5" placeholder="2" required>
+                            <div class="story-points" id="storyHours">Hours: 0 (1 point = 8 hours)</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="dueDate">Due Date *</label>
+                            <input type="date" id="dueDate" name="dueDate" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 5: Assignment -->
+                <div class="form-step" data-step="5">
+                    <div class="step-header">
+                        <div class="step-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="m22 21-3-3m0 0-3-3m3 3 3-3m-3 3-3 3"/></svg>
+                        </div>
+                        <div>
+                            <h2>Assignment</h2>
+                            <p>Accountability and reasoning</p>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="incidentAssignee">Assignee</label>
+                        <select id="incidentAssignee" name="assignee">
+                            <option value="">Auto-assign based on team</option>
+                            <option value="John Doe" data-avatar="JD" data-workload="3">John Doe (3 active tickets)</option>
+                            <option value="Jane Smith" data-avatar="JS" data-workload="2">Jane Smith (2 active tickets)</option>
+                            <option value="Mike Johnson" data-avatar="MJ" data-workload="4">Mike Johnson (4 active tickets)</option>
+                            <option value="Sarah Wilson" data-avatar="SW" data-workload="1">Sarah Wilson (1 active tickets)</option>
+                            <option value="Tom Brown" data-avatar="TB" data-workload="5">Tom Brown (5 active tickets)</option>
+                            <option value="Lisa Davis" data-avatar="LD" data-workload="2">Lisa Davis (2 active tickets)</option>
+                            <option value="Alex Chen" data-avatar="AC" data-workload="3">Alex Chen (3 active tickets)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="assignmentReasoning">Reasoning (Why assigned to this person?)</label>
+                        <textarea id="assignmentReasoning" name="assignmentReasoning" placeholder="Examples:&#10;• Has context from previous similar issues&#10;• Owns the affected module&#10;• Available capacity and expertise&#10;• Recently worked on related features" rows="4"></textarea>
+                    </div>
+                </div>
+
+                <!-- Step 6: Similar Tickets -->
+                <div class="form-step" data-step="6">
+                    <div class="step-header">
+                        <div class="step-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><path d="M21 12c.552 0 1-.448 1-1V5c0-.552-.448-1-1-1H3c-.552 0-1 .448-1 1v6c0 .552.448 1 1 1h9l4 4V12z"/></svg>
+                        </div>
+                        <div>
+                            <h2>Similar Tickets</h2>
+                            <p>Review potentially related tickets to avoid duplication</p>
+                        </div>
+                    </div>
+                    
+                    <div class="similar-tickets-section">
+                        <div class="smart-suggestions">
+                            <h3>Smart Suggestions</h3>
+                            
+                            <div class="suggestions-list" id="smartSuggestions">
+                                <!-- AI suggestions will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-navigation">
+                    <div class="nav-left">
+                        <button type="button" class="btn-secondary" id="prevStep" style="display: none;">Previous</button>
+                    </div>
+                    <div class="nav-right">
+                        <button type="button" class="btn-secondary" id="cancelIncident">Cancel</button>
+                        <button type="button" class="btn-primary" id="nextStep">Next</button>
+                        <button type="submit" class="btn-primary" id="submitIncident" style="display: none;">Create Incident</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+    <!-- Help Tooltip -->
+    <div class="help-tooltip" id="helpTooltip">
+        <button class="help-button" id="helpButton">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+        </button>
+        <div class="help-content" id="helpContent">
+            <h3>Dashboard Help</h3>
+            <ul>
+                <li><strong>Sidebar:</strong> Toggle sidebar using the hamburger icon</li>
+                <li><strong>Filters:</strong> Use dropdowns to filter tickets by status, assignee, etc.</li>
+                <li><strong>Tickets:</strong> Click on any ticket to view details</li>
+                <li><strong>Columns:</strong> Each column represents a stage in the issue lifecycle</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

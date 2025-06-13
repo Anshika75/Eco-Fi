@@ -1,0 +1,1548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoFi - User Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="user-dashboard.css">
+    <!-- Add Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Add Chart.js Matrix plugin for heatmaps -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-matrix@2.0.1/dist/chartjs-chart-matrix.min.js"></script>
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <header class="top-nav">
+        <div class="nav-left">
+            <div class="brand">EcoFi</div>
+        </div>
+        <div class="nav-right">
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Search by ticket ID or keyword">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            </div>
+            <button class="create-incident-btn" id="createIncidentBtn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 5v14"/>
+                    <path d="M5 12h14"/>
+                </svg>
+                Create Incident
+            </button>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <!-- Left Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <nav class="sidebar-nav">
+                <div class="nav-item" data-tooltip="Home">
+                    <div class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+                    </div>
+                    <span class="nav-label">Home</span>
+                </div>
+                <div class="nav-item active" data-tooltip="My Dashboard">
+                    <div class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </div>
+                    <span class="nav-label">My Dashboard</span>
+                </div>
+                <div class="nav-item" data-tooltip="Dead Tickets">
+                    <div class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+                    </div>
+                    <span class="nav-label">Dead Tickets</span>
+                </div>
+                <div class="nav-item" data-tooltip="Ticket Analyzer">
+                    <div class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                    </div>
+                    <span class="nav-label">Analyzer</span>
+                </div>
+                <div class="nav-item" data-tooltip="Visual Insights">
+                    <div class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+                    </div>
+                    <span class="nav-label">Insights</span>
+                </div>
+                <div class="nav-item" data-tooltip="Settings">
+                    <div class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+                    </div>
+                    <span class="nav-label">Settings</span>
+                </div>
+            </nav>
+            <button class="sidebar-toggle-bottom" id="sidebarToggle" aria-label="Toggle Sidebar">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m9 18 6-6-6-6"/>
+                </svg>
+            </button>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <div class="dashboard-container">
+                <!-- Filters Section -->
+                <div class="filters-section">
+                    <div class="filter-group">
+                        <label for="statusFilter">Status:</label>
+                        <select id="statusFilter" onchange="applyFilters()">
+                            <option value="all">All Status</option>
+                            <option value="defined">Newly Reported</option>
+                            <option value="review">Being Investigated</option>
+                            <option value="test">Verification</option>
+                            <option value="completed">Resolved</option>
+                            <option value="accepted">Closed/Rejected</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="timeRange">Time Range:</label>
+                        <select id="timeRange" onchange="applyFilters()">
+                            <option value="all" selected>All Time</option>
+                            <option value="7">Last 7 days</option>
+                            <option value="30">Last 30 days</option>
+                            <option value="90">Last 90 days</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="priorityFilter">Priority:</label>
+                        <select id="priorityFilter" onchange="applyFilters()">
+                            <option value="all">All Priorities</option>
+                            <option value="critical">Critical</option>
+                            <option value="high">High</option>
+                            <option value="medium">Medium</option>
+                            <option value="low">Low</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="deadFlag">Show Dead Tickets:</label>
+                        <div class="toggle-switch">
+                            <input type="checkbox" id="deadFlag" onchange="applyFilters()">
+                            <label for="deadFlag" class="toggle-label">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KPI Section -->
+                <div class="kpi-section">
+                    <div class="kpi-card">
+                        <div class="kpi-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        </div>
+                        <div class="kpi-content">
+                            <div class="kpi-value" id="totalTickets">0</div>
+                            <div class="kpi-label">Total Tickets Assigned</div>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        </div>
+                        <div class="kpi-content">
+                            <div class="kpi-value" id="oldTickets">0</div>
+                            <div class="kpi-label">Tickets Open > 7 Days</div>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                        </div>
+                        <div class="kpi-content">
+                            <div class="kpi-value" id="avgResolutionTime">0h</div>
+                            <div class="kpi-label">Avg Resolution Time</div>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                        </div>
+                        <div class="kpi-content">
+                            <div class="kpi-value" id="closedThisWeek">0</div>
+                            <div class="kpi-label">Closed This Week</div>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                        </div>
+                        <div class="kpi-content">
+                            <div class="kpi-value" id="avgImpactScore">0.0</div>
+                            <div class="kpi-label">Avg Impact Score</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Grid -->
+                <div class="charts-grid">
+                    <!-- Original Charts -->
+                    <div class="chart-container">
+                        <h3>My Tickets by Status</h3>
+                        <canvas id="statusChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3>My Tickets by Priority</h3>
+                        <canvas id="priorityChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3>Resolution Time Distribution</h3>
+                        <canvas id="resolutionTimeChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3>Impact Score Trend</h3>
+                        <canvas id="impactScoreChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3>Ticket Aging (Days)</h3>
+                        <canvas id="agingChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3>Days Since Last Update</h3>
+                        <canvas id="lastUpdateChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3>Impact Zones</h3>
+                        <canvas id="impactZonesChart"></canvas>
+                    </div>
+                    
+                    <!-- Ticket Creation Trend -->
+                    <div class="chart-container wide">
+                        <h3>Ticket Creation Trend</h3>
+                        <canvas id="creationTrendChart"></canvas>
+                    </div>
+                    
+                    <!-- Heat Maps Row -->
+                    <div class="chart-container wide">
+                        <h3>Ticket Count Heat Map (Urgency vs Status)</h3>
+                        <div id="ticketCountHeatmap" class="heatmap-container"></div>
+                    </div>
+                    <div class="chart-container wide">
+                        <h3>Average Resolution Time Heat Map (Urgency vs Status)</h3>
+                        <div id="resolutionTimeHeatmap" class="resolution-heatmap-container"></div>
+                    </div>
+                </div>
+
+                <!-- Dead Tickets Section - Will be hidden/shown based on toggle -->
+                <div id="deadTicketsSection" class="chart-container wide section-spacing" style="display: none;">
+                    <h3>Dead Tickets</h3>
+                    <div class="table-container">
+                        <table id="deadTicketsTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Summary</th>
+                                    <th>Status</th>
+                                    <th>Priority</th>
+                                    <th>Created</th>
+                                    <th>Days Stale</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- NLP Summaries Section -->
+                <div class="chart-container wide section-spacing">
+                    <h3>NLP Summaries</h3>
+                    <div class="table-container">
+                        <table id="nlpSummariesTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Summary</th>
+                                    <th>Priority</th>
+                                    <th>NLP Analysis</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Help Tooltip -->
+    <div class="help-tooltip" id="helpTooltip">
+        <button class="help-button" id="helpButton">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+        </button>
+        <div class="help-content" id="helpContent">
+            <h3>User Dashboard Help</h3>
+            <ul>
+                <li><strong>Filters:</strong> Use the filters at the top to narrow down your tickets</li>
+                <li><strong>KPIs:</strong> View your key performance indicators</li>
+                <li><strong>Heat Maps:</strong> Visualize ticket distribution and resolution times</li>
+                <li><strong>Charts:</strong> Visualize your ticket data in various ways</li>
+                <li><strong>Tables:</strong> See detailed information about dead tickets and NLP summaries</li>
+                <li><strong>Export:</strong> Use the export button to download your dashboard data</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Export Button -->
+    <button class="export-btn" onclick="exportDashboard()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Export Dashboard
+    </button>
+
+    <!-- Standalone user dashboard JS -->
+<script>
+    // Global variables
+    let allTickets = [];
+    let filteredTickets = [];
+    const charts = {};
+    const currentUser = "John Doe"; // This would come from authentication
+
+    // Initialize dashboard
+    document.addEventListener("DOMContentLoaded", () => {
+        // Initialize charts object
+        charts.statusChart = null;
+        charts.priorityChart = null;
+        charts.resolutionTimeChart = null;
+        charts.creationTrendChart = null;
+        charts.impactScoreChart = null;
+        charts.agingChart = null;
+        charts.lastUpdateChart = null;
+        charts.impactZonesChart = null;
+        
+        loadUserTickets();
+        setupEventListeners();
+        
+        // Initially hide the dead tickets section
+        toggleDeadTicketsSection();
+    });
+
+    // Setup event listeners
+    function setupEventListeners() {
+        // Add sidebar toggle functionality
+        const sidebarToggle = document.getElementById("sidebarToggle");
+        if (sidebarToggle) {
+            sidebarToggle.addEventListener("click", toggleSidebar);
+        }
+
+        // Help tooltip
+        const helpButton = document.getElementById("helpButton");
+        const helpContent = document.getElementById("helpContent");
+        if (helpButton && helpContent) {
+            helpButton.addEventListener("click", () => {
+                helpContent.classList.toggle("active");
+            });
+
+            document.addEventListener("click", (e) => {
+                if (!helpButton.contains(e.target) && !helpContent.contains(e.target)) {
+                    helpContent.classList.remove("active");
+                }
+            });
+        }
+
+        // Add navigation functionality to sidebar items
+        const homeNavItem = document.querySelector('[data-tooltip="Home"]');
+        const myDashboardNavItem = document.querySelector('[data-tooltip="My Dashboard"]');
+        const deadTicketsNavItem = document.querySelector('[data-tooltip="Dead Tickets"]');
+
+        if (homeNavItem) {
+            homeNavItem.addEventListener("click", () => {
+                window.location.href = "index.html";
+            });
+        }
+
+        if (myDashboardNavItem) {
+            myDashboardNavItem.addEventListener("click", () => {
+                window.location.href = "user-dashboard.html";
+            });
+        }
+
+        if (deadTicketsNavItem) {
+            deadTicketsNavItem.addEventListener("click", () => {
+                // Toggle the dead tickets filter
+                const deadFlag = document.getElementById("deadFlag");
+                if (deadFlag) {
+                    deadFlag.checked = true;
+                    applyFilters();
+                }
+            });
+        }
+        
+        // Add event listener for dead flag toggle to show/hide dead tickets section
+        const deadFlag = document.getElementById("deadFlag");
+        if (deadFlag) {
+            deadFlag.addEventListener("change", toggleDeadTicketsSection);
+        }
+    }
+    
+    // Toggle dead tickets section visibility
+    function toggleDeadTicketsSection() {
+        const deadTicketsSection = document.getElementById("deadTicketsSection");
+        const deadFlag = document.getElementById("deadFlag");
+        
+        if (deadTicketsSection) {
+            if (deadFlag && deadFlag.checked) {
+                deadTicketsSection.style.display = "block";
+                updateDeadTicketsTable(); // Update the table when showing
+            } else {
+                deadTicketsSection.style.display = "none";
+            }
+        }
+    }
+
+    // Toggle sidebar
+    function toggleSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        if (sidebar) {
+            sidebar.classList.toggle("collapsed");
+        }
+    }
+
+    // Load user tickets
+    function loadUserTickets() {
+        console.log("Loading user tickets...");
+        // Generate mock data
+        allTickets = generateMockUserTickets();
+        console.log(`Generated ${allTickets.length} tickets`);
+        
+        // Initially show all tickets except dead ones
+        const showDeadOnly = document.getElementById("deadFlag")?.checked || false;
+        if (showDeadOnly) {
+            filteredTickets = allTickets.filter(ticket => ticket.isDead || ticket.deadFlag);
+        } else {
+            filteredTickets = allTickets.filter(ticket => !(ticket.isDead || ticket.deadFlag));
+        }
+        
+        console.log(`Initial filtered tickets: ${filteredTickets.length}`);
+        updateDashboard();
+    }
+
+    // Generate mock user tickets with better dummy data
+    function generateMockUserTickets() {
+        const tickets = [];
+        const statuses = ["defined", "review", "test", "completed", "accepted"];
+        const priorities = ["low", "medium", "high", "critical"];
+        const systems = ["Authentication", "Payment", "Dashboard", "API", "Database", "Frontend", "Mobile", "DevOps"];
+
+        // Predefined ticket scenarios for better visualization
+        const ticketScenarios = [
+            {
+                title: "Login authentication failing on mobile devices",
+                system: "Authentication",
+                priority: "critical",
+                status: "review",
+                resolutionHours: 8,
+                impactScore: 9.2,
+                urgency: 9,
+                isDead: false,
+                daysOld: 2
+            },
+            {
+                title: "Payment gateway timeout errors",
+                system: "Payment",
+                priority: "high",
+                status: "test",
+                resolutionHours: 6,
+                impactScore: 8.5,
+                urgency: 8,
+                isDead: false,
+                daysOld: 5
+            },
+            {
+                title: "Dashboard loading performance issues",
+                system: "Dashboard",
+                priority: "medium",
+                status: "completed",
+                resolutionHours: 4,
+                impactScore: 6.8,
+                urgency: 6,
+                isDead: false,
+                daysOld: 12
+            },
+            {
+                title: "API rate limiting causing timeouts",
+                system: "API",
+                priority: "high",
+                status: "defined",
+                resolutionHours: 12,
+                impactScore: 7.9,
+                urgency: 7,
+                isDead: false,
+                daysOld: 1
+            },
+            {
+                title: "Database connection pool exhaustion",
+                system: "Database",
+                priority: "critical",
+                status: "review",
+                resolutionHours: 16,
+                impactScore: 9.5,
+                urgency: 10,
+                isDead: false,
+                daysOld: 3
+            },
+            {
+                title: "Frontend component rendering issues",
+                system: "Frontend",
+                priority: "low",
+                status: "accepted",
+                resolutionHours: 2,
+                impactScore: 3.2,
+                urgency: 3,
+                isDead: false,
+                daysOld: 20
+            },
+            {
+                title: "Mobile app crashes on startup",
+                system: "Mobile",
+                priority: "critical",
+                status: "test",
+                resolutionHours: 10,
+                impactScore: 8.8,
+                urgency: 9,
+                isDead: false,
+                daysOld: 4
+            },
+            {
+                title: "CI/CD pipeline failing intermittently",
+                system: "DevOps",
+                priority: "medium",
+                status: "completed",
+                resolutionHours: 5,
+                impactScore: 5.5,
+                urgency: 5,
+                isDead: false,
+                daysOld: 8
+            },
+            {
+                title: "Legacy authentication module cleanup",
+                system: "Authentication",
+                priority: "low",
+                status: "defined",
+                resolutionHours: 24,
+                impactScore: 2.1,
+                urgency: 2,
+                isDead: true,
+                daysOld: 45
+            },
+            {
+                title: "Old payment integration removal",
+                system: "Payment",
+                priority: "low",
+                status: "defined",
+                resolutionHours: 18,
+                impactScore: 1.8,
+                urgency: 1,
+                isDead: true,
+                daysOld: 60
+            }
+        ];
+
+        // Create tickets from scenarios
+        ticketScenarios.forEach((scenario, index) => {
+            const createdDate = new Date();
+            createdDate.setDate(createdDate.getDate() - scenario.daysOld);
+
+            const updatedDate = new Date(createdDate);
+            updatedDate.setDate(updatedDate.getDate() + Math.floor(Math.random() * scenario.daysOld));
+
+            const ticket = {
+                id: `TCK-${1200 + index}`,
+                summary: scenario.title,
+                status: scenario.status,
+                urgency: scenario.priority,
+                assignee: currentUser,
+                assigneeInitials: "JD",
+                createdDate: createdDate,
+                updatedDate: updatedDate,
+                resolutionTime: `~${scenario.resolutionHours}h`,
+                resolutionEstimate: scenario.resolutionHours,
+                impactScore: scenario.impactScore,
+                urgencyLevel: scenario.urgency,
+                isDead: scenario.isDead,
+                deadFlag: scenario.isDead,
+                systemZone: scenario.system,
+                tags: [scenario.system],
+                nlpSummary: generateNLPSummary(index)
+            };
+
+            tickets.push(ticket);
+        });
+
+        // Generate additional random tickets for better data visualization
+        for (let i = 10; i < 30; i++) {
+            const createdDate = new Date();
+            createdDate.setDate(createdDate.getDate() - Math.floor(Math.random() * 90));
+
+            const updatedDate = new Date(createdDate);
+            updatedDate.setDate(updatedDate.getDate() + Math.floor(Math.random() * 30));
+
+            const resolutionHours = Math.floor(Math.random() * 40) + 1;
+            const urgencyLevel = Math.floor(Math.random() * 10) + 1;
+            const isDead = Math.random() < 0.15; // 15% chance of being dead
+            const selectedSystem = systems[Math.floor(Math.random() * systems.length)];
+            const selectedPriority = priorities[Math.floor(Math.random() * priorities.length)];
+
+            const ticket = {
+                id: `TCK-${1200 + i}`,
+                summary: `${selectedSystem} issue - ${generateRandomIssueType()}`,
+                status: statuses[Math.floor(Math.random() * statuses.length)],
+                urgency: selectedPriority,
+                assignee: currentUser,
+                assigneeInitials: "JD",
+                createdDate: createdDate,
+                updatedDate: updatedDate,
+                resolutionTime: `~${resolutionHours}h`,
+                resolutionEstimate: resolutionHours,
+                impactScore: Math.random() * 10,
+                urgencyLevel: urgencyLevel,
+                isDead: isDead,
+                deadFlag: isDead,
+                systemZone: selectedSystem,
+                tags: [selectedSystem],
+                nlpSummary: generateNLPSummary(i)
+            };
+
+            tickets.push(ticket);
+        }
+
+        return tickets;
+    }
+
+    // Generate random issue types for better dummy data
+    function generateRandomIssueType() {
+        const issueTypes = [
+            "performance degradation",
+            "security vulnerability", 
+            "integration failure",
+            "memory leak",
+            "configuration error",
+            "validation bug",
+            "timeout issue",
+            "data corruption",
+            "UI inconsistency",
+            "service unavailable"
+        ];
+
+        return issueTypes[Math.floor(Math.random() * issueTypes.length)];
+    }
+
+    // Generate NLP summary
+    function generateNLPSummary(ticketNum) {
+        const summaries = [
+            "Authentication service experiencing intermittent failures during peak hours. Requires immediate investigation of load balancing configuration.",
+            "Payment gateway integration returning 500 errors for specific card types. Database connection timeout suspected.",
+            "Dashboard loading performance degraded by 40%. Frontend optimization and caching strategy needed.",
+            "API rate limiting causing client timeouts. Need to review throttling policies and implement better error handling.",
+            "Database query optimization required for user search functionality. Current response time exceeds SLA.",
+            "Frontend component rendering issues on mobile devices. CSS media queries need adjustment.",
+            "User session management bug causing premature logouts. Session storage mechanism needs review.",
+            "Email notification service failing silently. SMTP configuration and error logging need attention.",
+            "File upload functionality timing out for large files. Need to implement chunked upload strategy.",
+            "Search functionality returning inconsistent results. Elasticsearch indexing requires maintenance."
+        ];
+
+        return summaries[ticketNum % summaries.length];
+    }
+
+    // Apply filters
+function applyFilters() {
+    console.log("Applying filters...");
+    const statusFilter = document.getElementById("statusFilter").value;
+    const timeRange = document.getElementById("timeRange").value;
+    const priorityFilter = document.getElementById("priorityFilter").value;
+    const showDeadOnly = document.getElementById("deadFlag").checked;
+    
+    console.log("Filters:", {
+        status: statusFilter,
+        timeRange: timeRange,
+        priority: priorityFilter,
+        showDeadOnly: showDeadOnly
+    });
+
+    // Start with all tickets
+    let tempFilteredTickets = [...allTickets];
+    
+    // Apply each filter one by one
+    
+    // Status filter
+    if (statusFilter !== "all") {
+        tempFilteredTickets = tempFilteredTickets.filter(ticket => ticket.status === statusFilter);
+        console.log(`After status filter: ${tempFilteredTickets.length} tickets`);
+    }
+
+    // Time range filter
+    if (timeRange !== "all") {
+        const timeRangeValue = parseInt(timeRange);
+        tempFilteredTickets = tempFilteredTickets.filter(ticket => {
+            const daysDiff = Math.floor((new Date() - ticket.createdDate) / (1000 * 60 * 60 * 24));
+            return daysDiff <= timeRangeValue;
+        });
+        console.log(`After time range filter: ${tempFilteredTickets.length} tickets`);
+    }
+
+    // Priority filter
+    if (priorityFilter !== "all") {
+        tempFilteredTickets = tempFilteredTickets.filter(ticket => ticket.urgency === priorityFilter);
+        console.log(`After priority filter: ${tempFilteredTickets.length} tickets`);
+    }
+
+    // Dead flag filter
+        if (showDeadOnly) {
+            // When toggle is ON, show ONLY dead tickets
+            tempFilteredTickets = tempFilteredTickets.filter(ticket => ticket.isDead || ticket.deadFlag);
+        } else {
+            // When toggle is OFF, show ONLY non-dead tickets
+            tempFilteredTickets = tempFilteredTickets.filter(ticket => !(ticket.isDead || ticket.deadFlag));
+        }
+        console.log(`After dead flag filter: ${tempFilteredTickets.length} tickets`);
+
+        // Update the filtered tickets
+        filteredTickets = tempFilteredTickets;
+        console.log(`Final filtered tickets: ${filteredTickets.length}`);
+        
+        // Toggle the dead tickets section visibility
+        toggleDeadTicketsSection();
+        
+        updateDashboard();
+    }
+
+    // Update entire dashboard
+    function updateDashboard() {
+        console.log("Updating dashboard with", filteredTickets.length, "filtered tickets");
+        updateKPIs();
+        try {
+            updateCharts();
+        } catch (error) {
+            console.error("Error updating charts:", error);
+        }
+        updateTables();
+    }
+
+    // Update KPI cards
+    function updateKPIs() {
+        const totalTickets = filteredTickets.length;
+        const oldTickets = filteredTickets.filter(ticket => {
+            const daysDiff = Math.floor((new Date() - ticket.createdDate) / (1000 * 60 * 60 * 24));
+            return daysDiff > 7 && ticket.status !== "completed" && ticket.status !== "accepted";
+        }).length;
+
+        // Calculate average resolution time
+        let avgResolutionTime = 0;
+        const ticketsWithResolution = filteredTickets.filter(ticket => {
+            const timeStr = ticket.resolutionTime ? ticket.resolutionTime.replace("~", "").replace("h", "") : "0";
+            const hours = parseInt(timeStr || 0);
+            return hours > 0 && !isNaN(hours);
+        });
+
+        if (ticketsWithResolution.length > 0) {
+            const totalHours = ticketsWithResolution.reduce((sum, ticket) => {
+                const timeStr = ticket.resolutionTime.replace("~", "").replace("h", "");
+                return sum + parseInt(timeStr || 0);
+            }, 0);
+            avgResolutionTime = Math.round(totalHours / ticketsWithResolution.length);
+        }
+
+        const oneWeekAgo = new Date();
+        oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+        const closedThisWeek = filteredTickets.filter(ticket => 
+            (ticket.status === "completed" || ticket.status === "accepted") && 
+            ticket.updatedDate >= oneWeekAgo
+        ).length;
+
+        // Calculate average impact score
+        let avgImpactScore = 0;
+        const ticketsWithImpact = filteredTickets.filter(ticket => 
+            ticket.impactScore !== undefined && ticket.impactScore !== null && !isNaN(ticket.impactScore)
+        );
+
+        if (ticketsWithImpact.length > 0) {
+            const totalImpact = ticketsWithImpact.reduce((sum, ticket) => sum + ticket.impactScore, 0);
+            avgImpactScore = (totalImpact / ticketsWithImpact.length).toFixed(1);
+        }
+
+        // Update KPI values
+        document.getElementById("totalTickets").textContent = totalTickets;
+        document.getElementById("oldTickets").textContent = oldTickets;
+        document.getElementById("avgResolutionTime").textContent = `${avgResolutionTime}h`;
+        document.getElementById("closedThisWeek").textContent = closedThisWeek;
+        document.getElementById("avgImpactScore").textContent = avgImpactScore;
+    }
+
+    // Update all charts
+    function updateCharts() {
+        updateStatusChart();
+        updatePriorityChart();
+        updateResolutionTimeChart();
+        updateImpactScoreChart();
+        updateAgingChart();
+        updateLastUpdateChart();
+        updateImpactZonesChart();
+        updateCreationTrendChart();
+        updateTicketCountHeatmap();
+        updateResolutionTimeHeatmap();
+    }
+
+    // Status chart (Donut)
+    function updateStatusChart() {
+        const ctx = document.getElementById("statusChart");
+        if (!ctx) return;
+
+        if (charts.statusChart) {
+            charts.statusChart.destroy();
+        }
+
+        const statusCounts = {
+            defined: filteredTickets.filter(t => t.status === "defined").length,
+            review: filteredTickets.filter(t => t.status === "review").length,
+            test: filteredTickets.filter(t => t.status === "test").length,
+            completed: filteredTickets.filter(t => t.status === "completed").length,
+            accepted: filteredTickets.filter(t => t.status === "accepted").length
+        };
+
+        charts.statusChart = new Chart(ctx, {
+            type: "doughnut",
+            data: {
+                labels: ["Newly Reported", "Being Investigated", "Verification", "Resolved", "Closed/Rejected"],
+                datasets: [{
+                    data: [
+                        statusCounts.defined,
+                        statusCounts.review,
+                        statusCounts.test,
+                        statusCounts.completed,
+                        statusCounts.accepted
+                    ],
+                    backgroundColor: ["#007bff", "#fd7e14", "#6f42c1", "#28a745", "#6c757d"],
+                    borderWidth: 2,
+                    borderColor: "#fff"
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: "bottom",
+                        labels: {
+                            boxWidth: 12,
+                            padding: 15
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // Priority chart (Stacked Column)
+    function updatePriorityChart() {
+        const ctx = document.getElementById("priorityChart");
+        if (!ctx) return;
+
+        if (charts.priorityChart) {
+            charts.priorityChart.destroy();
+        }
+
+        const priorityCounts = {
+            low: filteredTickets.filter(t => t.urgency === "low").length,
+            medium: filteredTickets.filter(t => t.urgency === "medium").length,
+            high: filteredTickets.filter(t => t.urgency === "high").length,
+            critical: filteredTickets.filter(t => t.urgency === "critical").length
+        };
+
+        charts.priorityChart = new Chart(ctx, {
+            type: "bar",
+            data: {
+                labels: ["Low", "Medium", "High", "Critical"],
+                datasets: [{
+                    label: "Tickets",
+                    data: [
+                        priorityCounts.low,
+                        priorityCounts.medium,
+                        priorityCounts.high,
+                        priorityCounts.critical
+                    ],
+                    backgroundColor: ["#28a745", "#ffc107", "#fd7e14", "#dc3545"],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+    // Resolution time distribution (Histogram)
+    function updateResolutionTimeChart() {
+        const ctx = document.getElementById("resolutionTimeChart");
+        if (!ctx) return;
+
+        if (charts.resolutionTimeChart) {
+            charts.resolutionTimeChart.destroy();
+        }
+
+        // Create histogram bins
+        const bins = ["0-5h", "6-10h", "11-20h", "21-30h", "30h+"];
+        const binCounts = [0, 0, 0, 0, 0];
+
+        filteredTickets.forEach(ticket => {
+            const timeStr = ticket.resolutionTime ? ticket.resolutionTime.replace("~", "").replace("h", "") : "0";
+            const hours = parseInt(timeStr || 0);
+
+            if (hours <= 5) binCounts[0]++;
+            else if (hours <= 10) binCounts[1]++;
+            else if (hours <= 20) binCounts[2]++;
+            else if (hours <= 30) binCounts[3]++;
+            else binCounts[4]++;
+        });
+
+        charts.resolutionTimeChart = new Chart(ctx, {
+            type: "bar",
+            data: {
+                labels: bins,
+                datasets: [{
+                    label: "Number of Tickets",
+                    data: binCounts,
+                    backgroundColor: "#0a6de6",
+                    borderColor: "#0856b8",
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+    // Creation trend chart (Line)
+    function updateCreationTrendChart() {
+        const ctx = document.getElementById("creationTrendChart");
+        if (!ctx) return;
+
+        if (charts.creationTrendChart) {
+            charts.creationTrendChart.destroy();
+        }
+
+        // Group tickets by week
+        const weeklyData = {};
+        filteredTickets.forEach(ticket => {
+            const weekStart = new Date(ticket.createdDate);
+            weekStart.setDate(weekStart.getDate() - weekStart.getDay());
+            const weekKey = weekStart.toISOString().split('T')[0];
+
+            weeklyData[weekKey] = (weeklyData[weekKey] || 0) + 1;
+        });
+
+        const sortedWeeks = Object.keys(weeklyData).sort();
+        const counts = sortedWeeks.map(week => weeklyData[week]);
+
+        charts.creationTrendChart = new Chart(ctx, {
+            type: "line",
+            data: {
+                labels: sortedWeeks.map(week => new Date(week).toLocaleDateString()),
+                datasets: [{
+                    label: "Tickets Created",
+                    data: counts,
+                    borderColor: "#0a6de6",
+                    backgroundColor: "rgba(10, 109, 230, 0.1)",
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+    // Impact score trend
+    function updateImpactScoreChart() {
+        const ctx = document.getElementById("impactScoreChart");
+        if (!ctx) return;
+
+        if (charts.impactScoreChart) {
+            charts.impactScoreChart.destroy();
+        }
+
+        // Group by week and calculate average impact score
+        const weeklyImpact = {};
+        filteredTickets.forEach(ticket => {
+            const weekStart = new Date(ticket.createdDate);
+            weekStart.setDate(weekStart.getDate() - weekStart.getDay());
+            const weekKey = weekStart.toISOString().split('T')[0];
+
+            if (!weeklyImpact[weekKey]) {
+                weeklyImpact[weekKey] = { total: 0, count: 0 };
+            }
+            weeklyImpact[weekKey].total += ticket.impactScore || 0;
+            weeklyImpact[weekKey].count++;
+        });
+
+        const sortedWeeks = Object.keys(weeklyImpact).sort();
+        const avgImpacts = sortedWeeks.map(week => weeklyImpact[week].total / weeklyImpact[week].count);
+
+        charts.impactScoreChart = new Chart(ctx, {
+            type: "line",
+            data: {
+                labels: sortedWeeks.map(week => new Date(week).toLocaleDateString()),
+                datasets: [{
+                    label: "Avg Impact Score",
+                    data: avgImpacts,
+                    borderColor: "#fd7e14",
+                    backgroundColor: "rgba(253, 126, 20, 0.1)",
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 10
+                    }
+                }
+            }
+        });
+    }
+
+    // Aging chart
+    function updateAgingChart() {
+        const ctx = document.getElementById("agingChart");
+        if (!ctx) return;
+
+        if (charts.agingChart) {
+            charts.agingChart.destroy();
+        }
+
+        const openTickets = filteredTickets.filter(t => t.status !== "completed" && t.status !== "accepted");
+
+        const agingData = openTickets.map(ticket => {
+            const daysDiff = Math.floor((new Date() - ticket.createdDate) / (1000 * 60 * 60 * 24));
+            return {
+                id: ticket.id,
+                days: daysDiff,
+                color: daysDiff > 14 ? "#dc3545" : daysDiff > 7 ? "#ffc107" : "#28a745"
+            };
+        }).sort((a, b) => b.days - a.days).slice(0, 10); // Top 10 oldest
+
+        charts.agingChart = new Chart(ctx, {
+            type: "bar",
+            data: {
+                labels: agingData.map(item => item.id),
+                datasets: [{
+                    label: "Days Open",
+                    data: agingData.map(item => item.days),
+                    backgroundColor: agingData.map(item => item.color),
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+    // Last update chart
+    function updateLastUpdateChart() {
+        const ctx = document.getElementById("lastUpdateChart");
+        if (!ctx) return;
+
+        if (charts.lastUpdateChart) {
+            charts.lastUpdateChart.destroy();
+        }
+
+        const updateData = filteredTickets.map(ticket => {
+            const daysSinceUpdate = Math.floor((new Date() - ticket.updatedDate) / (1000 * 60 * 60 * 24));
+            return {
+                id: ticket.id,
+                days: daysSinceUpdate,
+                color: daysSinceUpdate > 7 ? "#dc3545" : daysSinceUpdate > 3 ? "#ffc107" : "#28a745"
+            };
+        }).sort((a, b) => b.days - a.days).slice(0, 10); // Top 10 stale
+
+        charts.lastUpdateChart = new Chart(ctx, {
+            type: "bar",
+            data: {
+                labels: updateData.map(item => item.id),
+                datasets: [{
+                    label: "Days Since Update",
+                    data: updateData.map(item => item.days),
+                    backgroundColor: updateData.map(item => item.color),
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+    // Impact zones chart
+    function updateImpactZonesChart() {
+        const ctx = document.getElementById("impactZonesChart");
+        if (!ctx) return;
+
+        if (charts.impactZonesChart) {
+            charts.impactZonesChart.destroy();
+        }
+
+        // Use tags or systemZone to group tickets
+        const zoneCounts = {};
+        filteredTickets.forEach(ticket => {
+            const zone = ticket.systemZone || (ticket.tags && ticket.tags[0]) || "Unknown";
+            zoneCounts[zone] = (zoneCounts[zone] || 0) + 1;
+        });
+
+        const zones = Object.keys(zoneCounts);
+        const counts = zones.map(zone => zoneCounts[zone]);
+
+        // Generate colors based on the number of zones
+        const colors = [
+            "#0a6de6", "#0856b8", "#fd7e14", "#dc3545", "#28a745",
+            "#6f42c1", "#17a2b8", "#ffc107", "#6c757d", "#20c997"
+        ];
+
+        charts.impactZonesChart = new Chart(ctx, {
+            type: "doughnut",
+            data: {
+                labels: zones,
+                datasets: [{
+                    data: counts,
+                    backgroundColor: zones.map((_, i) => colors[i % colors.length]),
+                    borderWidth: 2,
+                    borderColor: "#fff"
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: "bottom",
+                        labels: {
+                            boxWidth: 12,
+                            padding: 10
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // Update ticket count heatmap
+    function updateTicketCountHeatmap() {
+        const heatmapContainer = document.getElementById("ticketCountHeatmap");
+        if (!heatmapContainer) return;
+
+        // Clear existing heatmap
+        heatmapContainer.innerHTML = "";
+
+        // Create heatmap data based on urgency vs status
+        const urgencyLevels = ["low", "medium", "high", "critical"];
+        const statuses = ["defined", "review", "test", "completed", "accepted"];
+        const statusLabels = ["Newly Reported", "Being Investigated", "Verification", "Resolved", "Closed/Rejected"];
+
+        // Create heatmap grid
+        const heatmapGrid = document.createElement("div");
+        heatmapGrid.className = "heatmap-grid";
+        heatmapGrid.style.cssText = `
+            display: grid;
+            grid-template-columns: 120px repeat(${statuses.length}, 1fr);
+            gap: 2px;
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        `;
+
+        // Add header row
+        const headerEmpty = document.createElement("div");
+        headerEmpty.style.cssText = "padding: 8px; font-weight: bold; text-align: center;";
+        heatmapGrid.appendChild(headerEmpty);
+
+        statusLabels.forEach(statusLabel => {
+            const header = document.createElement("div");
+            header.textContent = statusLabel;
+            header.style.cssText = "padding: 8px; font-weight: bold; text-align: center; font-size: 11px; line-height: 1.2;";
+            heatmapGrid.appendChild(header);
+        });
+
+        // Add data rows
+        urgencyLevels.forEach(urgency => {
+            // Urgency label
+            const urgencyLabel = document.createElement("div");
+            urgencyLabel.textContent = urgency.charAt(0).toUpperCase() + urgency.slice(1);
+            urgencyLabel.style.cssText = "padding: 8px; font-weight: 500; font-size: 12px; display: flex; align-items: center;";
+            heatmapGrid.appendChild(urgencyLabel);
+
+            // Status cells
+            statuses.forEach(status => {
+                const count = filteredTickets.filter(ticket => ticket.urgency === urgency && ticket.status === status).length;
+
+                const cell = document.createElement("div");
+                cell.textContent = count || "0";
+
+                // Color intensity based on count
+                let intensity = 0;
+                if (count > 0) {
+                    const maxCount = Math.max(...urgencyLevels.flatMap(u => 
+                        statuses.map(s => filteredTickets.filter(t => t.urgency === u && t.status === s).length)
+                    ));
+                    intensity = count / Math.max(maxCount, 1);
+                }
+
+                const urgencyColors = {
+                    low: `rgba(40, 167, 69, ${0.2 + intensity * 0.8})`,
+                    medium: `rgba(255, 193, 7, ${0.2 + intensity * 0.8})`,
+                    high: `rgba(253, 126, 20, ${0.2 + intensity * 0.8})`,
+                    critical: `rgba(220, 53, 69, ${0.2 + intensity * 0.8})`
+                };
+
+                cell.style.cssText = `
+                    padding: 12px 8px;
+                    text-align: center;
+                    font-weight: 500;
+                    font-size: 14px;
+                    background: ${urgencyColors[urgency]};
+                    border-radius: 4px;
+                    min-height: 20px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: ${count > 0 ? "pointer" : "default"};
+                    transition: all 0.2s ease;
+                `;
+
+                if (count > 0) {
+                    cell.addEventListener("mouseenter", () => {
+                        cell.style.transform = "scale(1.05)";
+                        cell.style.boxShadow = "0 2px 8px rgba(0,0,0,0.15)";
+                    });
+                    cell.addEventListener("mouseleave", () => {
+                        cell.style.transform = "scale(1)";
+                        cell.style.boxShadow = "none";
+                    });
+                    cell.title = `${urgency} priority - ${statusLabels[statuses.indexOf(status)]}: ${count} ticket${count !== 1 ? 's' : ''}`;
+                }
+
+                heatmapGrid.appendChild(cell);
+            });
+        });
+
+        heatmapContainer.appendChild(heatmapGrid);
+    }
+
+    // Update resolution time heatmap
+    function updateResolutionTimeHeatmap() {
+        const heatmapContainer = document.getElementById("resolutionTimeHeatmap");
+        if (!heatmapContainer) return;
+
+        // Clear existing heatmap
+        heatmapContainer.innerHTML = "";
+
+        // Create heatmap data based on urgency vs status for resolution times
+        const urgencyLevels = ["low", "medium", "high", "critical"];
+        const statuses = ["defined", "review", "test", "completed", "accepted"];
+        const statusLabels = ["Newly Reported", "Being Investigated", "Verification", "Resolved", "Closed/Rejected"];
+
+        // Create heatmap grid
+        const heatmapGrid = document.createElement("div");
+        heatmapGrid.className = "heatmap-grid";
+        heatmapGrid.style.cssText = `
+            display: grid;
+            grid-template-columns: 120px repeat(${statuses.length}, 1fr);
+            gap: 2px;
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 8px;
+        `;
+
+        // Add header row
+        const headerEmpty = document.createElement("div");
+        headerEmpty.style.cssText = "padding: 8px; font-weight: bold; text-align: center;";
+        heatmapGrid.appendChild(headerEmpty);
+
+        statusLabels.forEach(statusLabel => {
+            const header = document.createElement("div");
+            header.textContent = statusLabel;
+            header.style.cssText = "padding: 8px; font-weight: bold; text-align: center; font-size: 11px; line-height: 1.2;";
+            heatmapGrid.appendChild(header);
+        });
+
+        // Calculate max resolution time for intensity
+        const allResolutionTimes = filteredTickets.map(ticket => {
+            const timeStr = ticket.resolutionTime ? ticket.resolutionTime.replace("~", "").replace("h", "") : "0";
+            return parseInt(timeStr || 0);
+        }).filter(time => time > 0);
+
+        const maxResolutionTime = Math.max(...allResolutionTimes, 1);
+
+        // Add data rows
+        urgencyLevels.forEach(urgency => {
+            // Urgency label
+            const urgencyLabel = document.createElement("div");
+            urgencyLabel.textContent = urgency.charAt(0).toUpperCase() + urgency.slice(1);
+            urgencyLabel.style.cssText = "padding: 8px; font-weight: 500; font-size: 12px; display: flex; align-items: center;";
+            heatmapGrid.appendChild(urgencyLabel);
+
+            // Status cells
+            statuses.forEach(status => {
+                const relevantTickets = filteredTickets.filter(ticket => ticket.urgency === urgency && ticket.status === status);
+
+                let avgResolutionTime = 0;
+                if (relevantTickets.length > 0) {
+                    const totalTime = relevantTickets.reduce((sum, ticket) => {
+                        const timeStr = ticket.resolutionTime ? ticket.resolutionTime.replace("~", "").replace("h", "") : "0";
+                        return sum + parseInt(timeStr || 0);
+                    }, 0);
+                    avgResolutionTime = Math.round(totalTime / relevantTickets.length);
+                }
+
+                const cell = document.createElement("div");
+                cell.textContent = avgResolutionTime > 0 ? `${avgResolutionTime}h` : "-";
+
+                // Color intensity based on resolution time
+                let intensity = 0;
+                if (avgResolutionTime > 0) {
+                    intensity = avgResolutionTime / maxResolutionTime;
+                }
+
+                const baseColor = avgResolutionTime > 20 ? "220, 53, 69" :
+                                avgResolutionTime > 10 ? "253, 126, 20" :
+                                avgResolutionTime > 5 ? "255, 193, 7" : "40, 167, 69";
+
+                cell.style.cssText = `
+                    padding: 12px 8px;
+                    text-align: center;
+                    font-weight: 500;
+                    font-size: 14px;
+                    background: rgba(${baseColor}, ${0.2 + intensity * 0.8});
+                    border-radius: 4px;
+                    min-height: 20px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: ${avgResolutionTime > 0 ? "pointer" : "default"};
+                    transition: all 0.2s ease;
+                `;
+
+                if (avgResolutionTime > 0) {
+                    cell.addEventListener("mouseenter", () => {
+                        cell.style.transform = "scale(1.05)";
+                        cell.style.boxShadow = "0 2px 8px rgba(0,0,0,0.15)";
+                    });
+                    cell.addEventListener("mouseleave", () => {
+                        cell.style.transform = "scale(1)";
+                        cell.style.boxShadow = "none";
+                    });
+                    cell.title = `${urgency} priority - ${statusLabels[statuses.indexOf(status)]}: Avg ${avgResolutionTime}h resolution time`;
+                }
+
+                heatmapGrid.appendChild(cell);
+            });
+        });
+
+        heatmapContainer.appendChild(heatmapGrid);
+    }
+
+    // Update tables
+    function updateTables() {
+        updateDeadTicketsTable();
+        updateNLPSummariesTable();
+    }
+
+    // Update dead tickets table
+    function updateDeadTicketsTable() {
+        const tableBody = document.querySelector("#deadTicketsTable tbody");
+        if (!tableBody) return;
+
+        // Clear existing rows
+        tableBody.innerHTML = "";
+
+        // Get all dead tickets from allTickets (not filteredTickets)
+        const deadTickets = allTickets.filter(ticket => ticket.isDead || ticket.deadFlag);
+
+        if (deadTickets.length === 0) {
+            const emptyRow = document.createElement("tr");
+            const emptyCell = document.createElement("td");
+            emptyCell.colSpan = 6;
+            emptyCell.textContent = "No dead tickets found";
+            emptyCell.style.textAlign = "center";
+            emptyCell.style.padding = "20px";
+            emptyRow.appendChild(emptyCell);
+            tableBody.appendChild(emptyRow);
+            return;
+        }
+
+        // Sort by days stale (descending)
+        deadTickets.sort((a, b) => {
+            const aDaysSinceUpdate = Math.floor((new Date() - a.updatedDate) / (1000 * 60 * 60 * 24));
+            const bDaysSinceUpdate = Math.floor((new Date() - b.updatedDate) / (1000 * 60 * 60 * 24));
+            return bDaysSinceUpdate - aDaysSinceUpdate;
+        });
+
+        // Add rows for each dead ticket
+        deadTickets.forEach(ticket => {
+            const row = document.createElement("tr");
+            
+            // Calculate days stale
+            const daysSinceUpdate = Math.floor((new Date() - ticket.updatedDate) / (1000 * 60 * 60 * 24));
+            
+            // Add cells
+            const idCell = document.createElement("td");
+            idCell.textContent = ticket.id;
+            idCell.style.fontWeight = "500";
+            
+            const summaryCell = document.createElement("td");
+            summaryCell.textContent = ticket.summary;
+            
+            const statusCell = document.createElement("td");
+            statusCell.textContent = ticket.status.charAt(0).toUpperCase() + ticket.status.slice(1);
+            
+            const priorityCell = document.createElement("td");
+            priorityCell.textContent = ticket.urgency.charAt(0).toUpperCase() + ticket.urgency.slice(1);
+            
+            const createdCell = document.createElement("td");
+            createdCell.textContent = ticket.createdDate.toLocaleDateString();
+            
+            const staleCell = document.createElement("td");
+            staleCell.textContent = daysSinceUpdate;
+            staleCell.style.fontWeight = "bold";
+            staleCell.style.color = daysSinceUpdate > 30 ? "#dc3545" : daysSinceUpdate > 14 ? "#fd7e14" : "#ffc107";
+            
+            row.appendChild(idCell);
+            row.appendChild(summaryCell);
+            row.appendChild(statusCell);
+            row.appendChild(priorityCell);
+            row.appendChild(createdCell);
+            row.appendChild(staleCell);
+            
+            tableBody.appendChild(row);
+        });
+    }
+
+    // Update NLP summaries table
+    function updateNLPSummariesTable() {
+        const tableBody = document.querySelector("#nlpSummariesTable tbody");
+        if (!tableBody) return;
+
+        // Clear existing rows
+        tableBody.innerHTML = "";
+
+        // Get tickets with NLP summaries
+        const nlpTickets = filteredTickets.filter(ticket => ticket.nlpSummary).slice(0, 5);
+
+        if (nlpTickets.length === 0) {
+            const emptyRow = document.createElement("tr");
+            const emptyCell = document.createElement("td");
+            emptyCell.colSpan = 5;
+            emptyCell.textContent = "No NLP summaries available";
+            emptyCell.style.textAlign = "center";
+            emptyCell.style.padding = "20px";
+            emptyRow.appendChild(emptyCell);
+            tableBody.appendChild(emptyRow);
+            return;
+        }
+
+        // Add rows for each NLP ticket
+        nlpTickets.forEach(ticket => {
+            const row = document.createElement("tr");
+            
+            // Add cells
+            const idCell = document.createElement("td");
+            idCell.textContent = ticket.id;
+            idCell.style.fontWeight = "500";
+            
+            const summaryCell = document.createElement("td");
+            summaryCell.textContent = ticket.summary;
+            
+            const priorityCell = document.createElement("td");
+            priorityCell.textContent = ticket.urgency.charAt(0).toUpperCase() + ticket.urgency.slice(1);
+            
+            const nlpCell = document.createElement("td");
+            nlpCell.textContent = ticket.nlpSummary;
+            
+            const actionCell = document.createElement("td");
+            const actionButton = document.createElement("button");
+            actionButton.textContent = "View Details";
+            actionButton.className = "action-button";
+            actionButton.addEventListener("click", () => {
+                alert(`Viewing details for ticket ${ticket.id}`);
+            });
+            actionCell.appendChild(actionButton);
+            
+            row.appendChild(idCell);
+            row.appendChild(summaryCell);
+            row.appendChild(priorityCell);
+            row.appendChild(nlpCell);
+            row.appendChild(actionCell);
+            
+            tableBody.appendChild(row);
+        });
+    }
+
+    // Export dashboard data
+    function exportDashboard() {
+        alert("Exporting dashboard data...");
+        // In a real implementation, this would generate a CSV or PDF
+    }
+</script>
+
+    <script src="user-dashboard.js"></script>
+</body>
+</html>
