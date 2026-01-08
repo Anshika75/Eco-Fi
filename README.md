@@ -57,7 +57,7 @@ This leads to:
 - 🚦 **Dead ticket detection** with interactive filters
 - ⏱ **Resolution time prediction**
 - 🔥 **Urgency-based prioritization**
-- 📈 **Live dashboards** with real-time insights
+- 📈 **Live dashboards** with real-time insights 
 
 ---
 
